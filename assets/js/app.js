@@ -60,6 +60,42 @@ const onEdit=(ele)=>{
     updateStd.classList.remove("d-none");
 }
 
+const onRemove=(ele)=>{
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            let removeId=ele.closest("tr").id;
+
+            let getIndex=stdArr.findIndex(std=>std.stdId===removeId);
+            stdArr.splice(getIndex,1);
+            ele.closest("tr").remove();
+            localStorage.setItem("stdArr", JSON.stringify(stdArr));
+
+            snackbar(` thia  studentInfo remove is successFully!`, `success`);
+
+            onmsg();
+        }
+      });
+
+    // let removeId=ele.closest("tr").id;
+
+    // let getIndex=stdArr.findIndex(std=>std.stdId===removeId);
+
+    // stdArr.splice(getIndex,1);
+
+    // ele.closest("tr").remove();
+
+    // localStorage.setItem("stdArr", JSON.stringify(stdArr));
+}
+
 
 const tempArr=(arr)=>{
     let result="";
@@ -134,6 +170,8 @@ const onStdForm=(ele)=>{
 
     localStorage.setItem("stdArr", JSON.stringify(stdArr));
 
+    snackbar(`  ${stdObj.fname} ${stdObj.lname} studentInfo Added is successFully!`, `success`);
+
     onmsg();
 
     ele.target.reset();
@@ -170,7 +208,7 @@ const onUpdateStd=()=>{
     Addstd.classList.remove("d-none");
     updateStd.classList.add("d-none");
 
-   snackbar(` this ${updateObj.fname} ${updateObj.lname} studentInfo update is successFully!`, `success`);
+   snackbar(`  ${updateObj.fname} ${updateObj.lname} studentInfo update is successFully!`, `success`);
 
    stdForm.reset();
 }
