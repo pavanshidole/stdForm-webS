@@ -1,3 +1,5 @@
+const cl=console.log;
+
 const stdForm=document.getElementById("stdForm");
 const fnameControl=document.getElementById("fname");
 const lnameControl=document.getElementById("lname");
@@ -6,6 +8,8 @@ const contactControl=document.getElementById("contact");
 const stdContainer=document.getElementById("stdContainer");
 const info=document.getElementById("info");
 const card=document.getElementById("card");
+const Addstd=document.getElementById("Addstd");
+const updateStd=document.getElementById("updateStd");
 
 function uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
@@ -28,7 +32,23 @@ function uuid() {
 // ]
 
  
+const onEdit=(ele)=>{
+    let editId=ele.closest("tr").id;
+   
+    cl(editId);
 
+    let getObj=stdArr.find(std=> std.stdId===editId);
+
+    cl(getObj);
+
+    fnameControl.value=getObj.fname;
+    lnameControl.value=getObj.lname;
+    emailControl.value=getObj.email;
+    contactControl.value=getObj.contact;
+
+    Addstd.classList.add("d-none");
+    updateStd.classList.remove("d-none");
+}
 
 
 const tempArr=(arr)=>{
@@ -41,6 +61,8 @@ const tempArr=(arr)=>{
                 <td>${std.lname}</td>
                 <td>${std.email}</td>
                 <td>${std.contact}</td>                 
+                <td><i class="fa-solid editBtn fa-pen-to-square text-primary" onclick="onEdit(this)"></i></td>                 
+                <td><i class="fa-solid removeBtn fa-trash text-danger" onclick="onRemove(this)"></i></td>                 
             </tr>`
     });
 
@@ -92,7 +114,9 @@ const onStdForm=(ele)=>{
                 <td>${stdObj.fname}</td>
                 <td>${stdObj.lname}</td>
                 <td>${stdObj.email}</td>
-                <td>${stdObj.contact}</td>  
+                <td>${stdObj.contact}</td>
+                <td><i class="fa-solid editBtn fa-pen-to-square text-primary" onclick="onEdit(this)"></i></td>                 
+                <td><i class="fa-solid removeBtn fa-trash text-danger" onclick="onRemove(this)"></i></td>      
     
     `
 
