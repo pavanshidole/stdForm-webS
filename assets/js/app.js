@@ -31,15 +31,25 @@ function uuid() {
 //     }
 // ]
 
+
+const snackbar=(title,icon)=>{
+    swal.fire({
+        title:title,
+        icon:icon,
+        timer:4000,
+        confirmButtonColor:"#00ff00",
+    })
+}
+
  
 const onEdit=(ele)=>{
     let editId=ele.closest("tr").id;
    
-    cl(editId);
+    localStorage.setItem("editId", editId);
 
     let getObj=stdArr.find(std=> std.stdId===editId);
 
-    cl(getObj);
+    
 
     fnameControl.value=getObj.fname;
     lnameControl.value=getObj.lname;
@@ -132,6 +142,40 @@ const onStdForm=(ele)=>{
 }
 
 
+const onUpdateStd=()=>{
+    let updateId=localStorage.getItem("editId");
+    let updateObj={
+        fname:fnameControl.value,
+        lname:lnameControl.value,
+        email:emailControl.value,
+        contact:contactControl.value,
+        stdId:updateId,
+    }
+
+    let getIndex=stdArr.findIndex(std=>std.stdId===updateId);
+
+    stdArr[getIndex]=updateObj;
+
+    let child=[...document.getElementById(updateId).children];
+
+
+    child[0].innerHTML=`${stdArr.length}`;
+    child[1].innerHTML=`${updateObj.fname}`;
+    child[2].innerHTML=`${updateObj.lname}`;
+    child[3].innerHTML=`${updateObj.email}`;
+    child[4].innerHTML=`${updateObj.contact}`;
+
+    localStorage.setItem("stdArr", JSON.stringify(stdArr));
+
+    Addstd.classList.remove("d-none");
+    updateStd.classList.add("d-none");
+
+   snackbar(` this ${updateObj.fname} ${updateObj.lname} studentInfo update is successFully!`, `success`);
+
+   stdForm.reset();
+}
+
 
 
 stdForm.addEventListener("submit" , onStdForm);
+updateStd.addEventListener("click", onUpdateStd);
